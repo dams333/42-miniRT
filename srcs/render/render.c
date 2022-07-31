@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render.h                                           :+:      :+:    :+:   */
+/*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmaia <jmaia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/19 16:48:02 by jmaia             #+#    #+#             */
-/*   Updated: 2022/07/31 17:25:00 by jmaia            ###   ########.fr       */
+/*   Created: 2022/07/31 17:23:53 by jmaia             #+#    #+#             */
+/*   Updated: 2022/07/31 17:25:30 by jmaia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RENDER_H
-# define RENDER_H
+#include "render.h"
 
-# include "window_props.h"
-
-int	render(t_mlx *mlx);
-
-#endif
+int	render(t_mlx *mlx)
+{
+	(void) mlx;
+	return (0);
+}

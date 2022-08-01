@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 12:33:16 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/06/27 13:04:58 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/07/31 17:46:47 by jmaia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,7 @@ bool	parse_plane(char **arg, t_generic_object **lsts);
 bool	parse_cylinder(char **args, t_generic_object **lst);
 
 bool add_item_to_list(t_generic_object **lst, void *item, t_object_type type);
+
+void	center_camera(t_generic_object *object_list);
 
 #endif

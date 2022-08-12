@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 17:19:23 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/13 00:50:11 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/13 01:22:10 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void my_pixel_put(t_mlx *mlx_object, int x, int y, int color, bool put)
 	data[y * WINDOW_WIDTH + x] = color;
 }
 
-t_vector canvas_to_viewport(int x, int y, int vw, int vh, int d)
+t_vector canvas_to_viewport(float x, float y, float vw, float vh, float d)
 {
 	t_vector p = {x*vw/WINDOW_WIDTH, y*vh/WINDOW_HEIGHT, d};
 	return p;
@@ -124,7 +124,9 @@ int	main(int argc, char **argv)
 	int d = 1;
 
 	//Simple sphere
-	t_sphere_object sphere = {0, 0, 3, 2, 255, 0, 0, NULL};
+	t_sphere_object sphere3 = {-2, 0, 4, 2, 0, 255, 0, NULL};
+	t_sphere_object sphere2 = {2, 0, 4, 2, 0, 0, 255, &sphere3};
+	t_sphere_object sphere = {0, 1, 3, 2, 255, 0, 0, &sphere2};
 
 	t_point origin = {0, 0, 0};
 
@@ -138,7 +140,6 @@ int	main(int argc, char **argv)
 		{
 			t_vector ray_direction = canvas_to_viewport(x, y, vw, vh, d); //as camera is in 0,0,0 the vector component are the point's coordinates
 			int color = trace_ray(origin, ray_direction, 1, INF, &sphere);
-			//printf("Print %i %i with color %X\n", x, y, color);
 			my_pixel_put(&mlx, x + WINDOW_WIDTH/2, y + WINDOW_HEIGHT/2, color, false);
 		}
 	}

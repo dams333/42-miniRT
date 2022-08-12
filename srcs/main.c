@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 17:19:23 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/13 00:16:05 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/13 00:50:11 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,33 +55,35 @@ int	encode_rgb(int red, int green, int blue)
 	return (red << 16 | green << 8 | blue);
 }
 
-void intersect_ray_sphere(t_point origin, t_vector D, t_sphere_object sphere, int t[2]) {
+void intersect_ray_sphere(t_point origin, t_vector ray_direction, t_sphere_object sphere, int t[2]) {
     float r = sphere.diameter / 2;
     t_vector CO = substract(origin, (t_point) {sphere.coord_x, sphere.coord_y, sphere.coord_z});
 
-    float a = dot_product(D, D);
-    float b = 2*dot_product(CO, D);
+    float a = dot_product(ray_direction, ray_direction);
+    float b = 2*dot_product(CO, ray_direction);
     float c = dot_product(CO, CO) - r*r;
 
     float discriminant = b*b - 4*a*c;
     if (discriminant < 0) {
-        t[0] = 1000;
-		t[1] = 1000;
+        t[0] = INF;
+		t[1] = INF;
     }
-
-    t[0] = (-b + sqrt(discriminant)) / (2*a);
-    t[1] = (-b - sqrt(discriminant)) / (2*a);
+	else
+	{
+		t[0] = (-b + sqrt(discriminant)) / (2*a);
+		t[1] = (-b - sqrt(discriminant)) / (2*a);
+	}
 }
 
 
-int trace_ray(t_point origin, t_vector D, int t_min, int t_max, t_sphere_object *spheres_list) {
+int trace_ray(t_point origin, t_vector ray_direction, int t_min, int t_max, t_sphere_object *spheres_list) {
     int closest_t = t_max;
     t_sphere_object closest_sphere = {0, 0, 0, 0, 0, 0, -1};
 	t_sphere_object *sphere = spheres_list;
 	while(sphere != NULL)
 	{
 		int t[2];
-		intersect_ray_sphere(origin, D, *sphere, t);
+		intersect_ray_sphere(origin, ray_direction, *sphere, t);
 		if(t[0] > t_min && t[0] < t_max && t[0] < closest_t)
 		{
 			closest_t = t[0];
@@ -96,7 +98,7 @@ int trace_ray(t_point origin, t_vector D, int t_min, int t_max, t_sphere_object 
 	}
     if (closest_sphere.color_b == -1)
 	{
-       return 0; //black
+    	return 0; //black
     }
     return encode_rgb(closest_sphere.color_r, closest_sphere.color_g, closest_sphere.color_b);
 }
@@ -122,7 +124,7 @@ int	main(int argc, char **argv)
 	int d = 1;
 
 	//Simple sphere
-	t_sphere_object sphere = {0, -1, 3, 0.5, 255, 0, 0, NULL};
+	t_sphere_object sphere = {0, 0, 3, 2, 255, 0, 0, NULL};
 
 	t_point origin = {0, 0, 0};
 
@@ -130,16 +132,14 @@ int	main(int argc, char **argv)
 		return (1);
 	init_events(mlx.mlx, mlx.win);
 
-	int inf = 1000;
-
 	for(int x = -WINDOW_WIDTH/2; x <= WINDOW_WIDTH/2; x++)
 	{
 		for(int y = -WINDOW_HEIGHT/2; y <= WINDOW_HEIGHT/2; y++)
 		{
-			t_vector D = canvas_to_viewport(x, y, vw, vh, d);
-			int color = trace_ray(origin, D, 1, 1000, &sphere);
+			t_vector ray_direction = canvas_to_viewport(x, y, vw, vh, d); //as camera is in 0,0,0 the vector component are the point's coordinates
+			int color = trace_ray(origin, ray_direction, 1, INF, &sphere);
 			//printf("Print %i %i with color %X\n", x, y, color);
-			my_pixel_put(&mlx, x, y, color, false);
+			my_pixel_put(&mlx, x + WINDOW_WIDTH/2, y + WINDOW_HEIGHT/2, color, false);
 		}
 	}
 	my_pixel_put(&mlx, 0, 0, 0, true);

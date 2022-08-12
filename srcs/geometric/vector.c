@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 13:36:32 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/13 00:06:52 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/13 00:49:35 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ float dot_product(t_vector v1, t_vector v2)
 {
     float result;
 
-    result += v1.x * v2.x;
+    result = v1.x * v2.x;
     result += v1.y * v2.y;
     result += v1.z * v2.z;
     return (result);

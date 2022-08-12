@@ -6,12 +6,14 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 13:35:07 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/13 00:07:10 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/13 00:38:25 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GEOMETRIC_H
 # define GEOMETRIC_H
+
+#define INF 1000000
 
 typedef struct s_point
 {

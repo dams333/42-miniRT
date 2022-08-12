@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 17:19:23 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/13 01:22:10 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/13 01:34:11 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,9 @@ int	main(int argc, char **argv)
 	int d = 1;
 
 	//Simple sphere
-	t_sphere_object sphere3 = {-2, 0, 4, 2, 0, 255, 0, NULL};
+	t_sphere_object sphere5 = {0.4, -0.4, 2, 0.5, 0, 128, 128, NULL};
+	t_sphere_object sphere4 = {-1, -1, 3, 1, 128, 128, 0, &sphere5};
+	t_sphere_object sphere3 = {-2, 0, 4, 2, 0, 255, 0, &sphere4};
 	t_sphere_object sphere2 = {2, 0, 4, 2, 0, 0, 255, &sphere3};
 	t_sphere_object sphere = {0, 1, 3, 2, 255, 0, 0, &sphere2};
 

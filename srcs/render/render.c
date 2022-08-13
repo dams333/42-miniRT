@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 14:01:07 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/13 14:37:05 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/13 14:47:45 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,10 @@ void start_rays(t_generic_object *object_list, t_camera_object *camera, t_mlx *m
 
     //Viewport informations (fake screen in the scene)
     float vw = 1;
-	float vh = 1;
+	float vh = WINDOW_WIDTH/(float)WINDOW_HEIGHT - 1;
 
     //Distance of the viewport from the camera (need to calculate from the FOV)
-	float d = 1;
+	float d = (vw/2)/tan(camera->horizontal_fov/2);
 
     //Parcour all the canvas (window) pixels (start from - and go to + becaus camera is centered and not at the top left of the window)
     for(int x = -WINDOW_WIDTH/2; x <= WINDOW_WIDTH/2; x++)

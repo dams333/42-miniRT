@@ -6,15 +6,15 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 13:48:26 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/13 14:19:55 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/13 14:46:14 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WINDOW_PROPS_H
 # define WINDOW_PROPS_H
 
-# define WINDOW_WIDTH 800
-# define WINDOW_HEIGHT 800
+# define WINDOW_WIDTH 1000
+# define WINDOW_HEIGHT 600
 # define WINDOW_NAME "MiniRT"
 
 # include "mlx.h"

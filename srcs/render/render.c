@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 14:01:07 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/13 14:47:45 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/13 15:05:28 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,29 +20,32 @@
 #include "window_props.h"
 #include "geometric.h"
 
-t_point canvas_to_viewport(float x, float y, float vw, float vh, float d)
+t_point canvas_to_viewport(float x, float y, float vw, float vh, float d, t_vector camera_direction)
 {
+    // direction = {0, 0, 1} need to change to take orientation into account
 	t_point p = {x*vw/WINDOW_WIDTH, y*vh/WINDOW_HEIGHT, d};
 	return p;
 }
 
-void intersect_ray_sphere(t_point origin, t_vector ray_direction, t_sphere_object sphere, float t[2]) {
+void intersect_ray_sphere(t_point origin, t_vector ray_direction, t_sphere_object sphere, float intersection_distance[2]) {
     float r = sphere.diameter / 2;
-    t_vector CO = substract(origin, (t_point) {sphere.coord_x, sphere.coord_y, sphere.coord_z});
+    t_vector sphere_origin = substract(origin, (t_point) {sphere.coord_x, sphere.coord_y, sphere.coord_z});
 
     float a = dot_product(ray_direction, ray_direction);
-    float b = 2*dot_product(CO, ray_direction);
-    float c = dot_product(CO, CO) - r*r;
+    float b = 2*dot_product(sphere_origin, ray_direction);
+    float c = dot_product(sphere_origin, sphere_origin) - r*r;
 
     float discriminant = b*b - 4*a*c;
     if (discriminant < 0) {
-        t[0] = INF;
-		t[1] = INF;
+        // No solution -> doesnt intersect
+        intersection_distance[0] = INF;
+		intersection_distance[1] = INF;
     }
 	else
 	{
-		t[0] = (-b + sqrt(discriminant)) / (2*a);
-		t[1] = (-b - sqrt(discriminant)) / (2*a);
+        // One or two solutions -> intersect
+		intersection_distance[0] = (-b + sqrt(discriminant)) / (2*a);
+		intersection_distance[1] = (-b - sqrt(discriminant)) / (2*a);
 	}
 }
 
@@ -55,17 +58,19 @@ int trace_ray(t_point origin, t_vector ray_direction, float t_min, float t_max, 
 	{
         if(obj->type == SPHERE)
         {
-            float t[2];
+            float intersection_distance[2];
             t_sphere_object *sphere = (t_sphere_object *)obj->specific_object;
-            intersect_ray_sphere(origin, ray_direction, *sphere, t);
-            if(t[0] > t_min && t[0] < t_max && t[0] < closest_t)
+            intersect_ray_sphere(origin, ray_direction, *sphere, intersection_distance);
+            if(intersection_distance[0] > t_min && intersection_distance[0] < t_max && intersection_distance[0] < closest_t)
             {
-                closest_t = t[0];
+                // If intersection in closer than previous one
+                closest_t = intersection_distance[0];
                 closest_object = obj;
             }
-            if(t[1] > t_min && t[1] < t_max && t[1] < closest_t)
+            if(intersection_distance[1] > t_min && intersection_distance[1] < t_max && intersection_distance[1] < closest_t)
             {
-                closest_t = t[1];
+                // If intersection in closer than previous one
+                closest_t = intersection_distance[1];
                 closest_object = obj;
             }   
         }
@@ -101,8 +106,9 @@ void start_rays(t_generic_object *object_list, t_camera_object *camera, t_mlx *m
 	{
 		for(int y = -WINDOW_HEIGHT/2; y <= WINDOW_HEIGHT/2; y++)
 		{
+            t_vector camera_orientation = {camera->orientation_x, camera->orientation_y, camera->orientation_z};
             //Convert the canvas pixel coordinates to the viewport coordinates and make a ray from the origin
-			t_vector ray_direction = substract(canvas_to_viewport(x, y, vw, vh, d), origin);
+			t_vector ray_direction = substract(canvas_to_viewport(x, y, vw, vh, d, camera_orientation), origin);
             //Trace ray (limited by the big number INF) and find the color of the nearest object
 			int color = trace_ray(origin, ray_direction, d, INF, object_list);
             //Put the color in the canvas pixel (Adding the WINDOW_WIDTH/2 compensing the initial offset)

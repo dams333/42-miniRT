@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 13:36:32 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/13 21:01:05 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/13 21:13:56 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ float dot_product(t_vector v1, t_vector v2)
     return (result);
 }
 
-t_vector matrix_mult(t_matrix3 matrix, t_vector vector)
+t_vector matrix_mult_vector(t_matrix3 matrix, t_vector vector)
 {
     t_vector result ;
     vector = normalize(vector);
@@ -86,6 +86,22 @@ t_vector matrix_mult(t_matrix3 matrix, t_vector vector)
     result.y = matrix.a1.y * vector.x + matrix.a2.y * vector.y + matrix.a3.y * vector.z;
     result.z = matrix.a1.z * vector.x + matrix.a2.z * vector.y + matrix.a3.z * vector.z;
     return (normalize(result));
+}
+
+t_matrix3 matrix_mult(t_matrix3 m1, t_matrix3 m2)
+{
+    t_matrix3 result;
+
+    result.a1.x = m1.a1.x * m2.a1.x + m1.a1.y * m2.a2.x + m1.a1.z * m2.a3.x;
+    result.a1.y = m1.a1.x * m2.a1.y + m1.a1.y * m2.a2.y + m1.a1.z * m2.a3.y;
+    result.a1.z = m1.a1.x * m2.a1.z + m1.a1.y * m2.a2.z + m1.a1.z * m2.a3.z;
+    result.a2.x = m1.a2.x * m2.a1.x + m1.a2.y * m2.a2.x + m1.a2.z * m2.a3.x;
+    result.a2.y = m1.a2.x * m2.a1.y + m1.a2.y * m2.a2.y + m1.a2.z * m2.a3.y;
+    result.a2.z = m1.a2.x * m2.a1.z + m1.a2.y * m2.a2.z + m1.a2.z * m2.a3.z;
+    result.a3.x = m1.a3.x * m2.a1.x + m1.a3.y * m2.a2.x + m1.a3.z * m2.a3.x;
+    result.a3.y = m1.a3.x * m2.a1.y + m1.a3.y * m2.a2.y + m1.a3.z * m2.a3.y;
+    result.a3.z = m1.a3.x * m2.a1.z + m1.a3.y * m2.a2.z + m1.a3.z * m2.a3.z;
+    return (result);
 }
 
 t_vector cross_product(t_vector v1, t_vector v2)
@@ -101,20 +117,17 @@ t_vector cross_product(t_vector v1, t_vector v2)
 t_matrix3 rotation_matrix_from_orientation(t_vector target)
 {
     t_vector base = {0, 0, 1};
-    double angle_x = acos(dot_product(base, target) / (vector_length(base) * vector_length(target)));
-    t_vector cross = cross_product(base, target);
-    double angle_y = acos(dot_product(cross, target) / (vector_length(cross) * vector_length(target)));
-    t_vector cross2 = cross_product(target, cross);
-    double angle_z = acos(dot_product(cross2, target) / (vector_length(cross2) * vector_length(target)));
+    t_vector axis = cross_product(base, target);
+    double angle = acos(dot_product(base, target));
     t_matrix3 result;
-    result.a1.x = cos(angle_x);
-    result.a1.y = -sin(angle_x);
-    result.a1.z = 0;
-    result.a2.x = sin(angle_x);
-    result.a2.y = cos(angle_x);
-    result.a2.z = 0;
-    result.a3.x = 0;
-    result.a3.y = 0;
-    result.a3.z = 1;
+    result.a1.x = cos(angle) + pow(axis.x, 2) * (1 - cos(angle));
+    result.a1.y = axis.x * axis.y * (1 - cos(angle)) - axis.z * sin(angle);
+    result.a1.z = axis.x * axis.z * (1 - cos(angle)) + axis.y * sin(angle);
+    result.a2.x = axis.x * axis.y * (1 - cos(angle)) + axis.z * sin(angle);
+    result.a2.y = cos(angle) + pow(axis.y, 2) * (1 - cos(angle));
+    result.a2.z = axis.y * axis.z * (1 - cos(angle)) - axis.x * sin(angle);
+    result.a3.x = axis.x * axis.z * (1 - cos(angle)) - axis.y * sin(angle);
+    result.a3.y = axis.y * axis.z * (1 - cos(angle)) + axis.x * sin(angle);
+    result.a3.z = cos(angle) + pow(axis.z, 2) * (1 - cos(angle));
     return (result);
 }

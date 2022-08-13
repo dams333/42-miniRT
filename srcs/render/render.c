@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 14:01:07 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/13 20:57:12 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/13 21:09:53 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void start_rays(t_generic_object *object_list, t_camera_object *camera, t_mlx *m
 		{
             //Convert the canvas pixel coordinates to the viewport coordinates and make a ray from the origin
             //printf("Canvas to viewport: %f %f %f\n", canvas_to_viewport(x, y, vw, vh, d).x, canvas_to_viewport(x, y, vw, vh, d).y, canvas_to_viewport(x, y, vw, vh, d).z);
-			t_vector ray_direction = matrix_mult(rotation_matrix, canvas_to_viewport(x, y, vw, vh, d));
+			t_vector ray_direction = matrix_mult_vector(rotation_matrix, canvas_to_viewport(x, y, vw, vh, d));
             //printf("Ray direction: %f %f %f\n", ray_direction.x, ray_direction.y, ray_direction.z);
             //Trace ray (limited by the big number INF) and find the color of the nearest object
 			int color = trace_ray(origin, ray_direction, d, INF, object_list);

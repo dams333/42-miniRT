@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 14:01:07 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/13 14:26:38 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/13 14:28:23 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,7 @@ void intersect_ray_sphere(t_point origin, t_vector ray_direction, t_sphere_objec
 int trace_ray(t_point origin, t_vector ray_direction, float t_min, float t_max, t_generic_object *objects) {
     float closest_t = t_max;
     t_generic_object *closest_object = NULL;
-    //t_sphere_object closest_sphere = {0, 0, 0, 0, 0, 0, -1};
-
     t_generic_object *obj = objects;
-	//t_sphere_object *sphere = spheres_list;
 
 	while(obj != NULL)
 	{

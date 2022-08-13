@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 14:01:07 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/13 21:59:44 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/13 22:01:36 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int trace_ray(t_point origin, t_vector ray_direction, float t_min, float t_max, 
         t_point point = add(origin, multiply_by_scalar(ray_direction, closest_t));
         t_vector normal = substract(point, (t_point) {sphere->coord_x, sphere->coord_y, sphere->coord_z});
         normal = normalize(normal);
-        return encode_rgb(sphere->color_r, sphere->color_g, sphere->color_b) * calcul_lightning(point, normal, objects);
+        return encode_rgb(sphere->color_r * calcul_lightning(point, normal, objects), sphere->color_g * calcul_lightning(point, normal, objects), sphere->color_b * calcul_lightning(point, normal, objects));
     }
     else
         return 0; //Add more objects (interfaces ?)

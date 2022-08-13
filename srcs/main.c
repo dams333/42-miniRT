@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 17:19:23 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/13 14:26:50 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/13 14:39:01 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	main(int argc, char **argv)
 	{
 		if (obj->type == CAMERA)
 		{
-			camera = (t_camera_object *)obj;
+			camera = (t_camera_object *)obj->specific_object;
 			break;
 		}
 		obj = obj->next;

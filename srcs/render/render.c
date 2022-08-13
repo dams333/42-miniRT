@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 14:01:07 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/13 15:05:28 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/13 15:07:24 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void start_rays(t_generic_object *object_list, t_camera_object *camera, t_mlx *m
 			t_vector ray_direction = substract(canvas_to_viewport(x, y, vw, vh, d, camera_orientation), origin);
             //Trace ray (limited by the big number INF) and find the color of the nearest object
 			int color = trace_ray(origin, ray_direction, d, INF, object_list);
-            //Put the color in the canvas pixel (Adding the WINDOW_WIDTH/2 compensing the initial offset)
+            //Put the color in the window pixel (Adding the WINDOW_WIDTH/2 compensing the initial offset)
             my_pixel_put(mlx, x + WINDOW_WIDTH/2, y + WINDOW_HEIGHT/2, color, false);
 		}
 	}

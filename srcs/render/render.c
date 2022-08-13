@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 14:01:07 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/13 21:18:50 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/13 21:22:36 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void start_rays(t_generic_object *object_list, t_camera_object *camera, t_mlx *m
 	float vh = WINDOW_WIDTH/(float)WINDOW_HEIGHT - vw;
 
     //Distance of the viewport from the camera (need to calculate from the FOV)
-	float d = (vw/2.0)/tan(camera->horizontal_fov/2.0);
+	float d = (vw*2.0)/tan(camera->horizontal_fov/2.0);
     printf("d = %f\n", d);
 
     t_vector camera_orientation = {camera->orientation_x, camera->orientation_y, camera->orientation_z};

@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 13:35:07 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/13 20:38:36 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/13 20:57:04 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,6 @@ void divide_by_scalar(t_vector *vector, double scalar);
 t_vector substract(t_point point1, t_point point2);
 float dot_product(t_vector v1, t_vector v2);
 t_vector matrix_mult(t_matrix3 matrix, t_vector vector);
-t_matrix3 rotation_matrix_from_orientation(t_vector from, t_vector to);
+t_matrix3 rotation_matrix_from_orientation(t_vector target);
 
 #endif

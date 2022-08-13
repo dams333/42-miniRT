@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 13:36:32 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/13 20:43:43 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/13 21:01:05 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,23 @@ t_vector cross_product(t_vector v1, t_vector v2)
     return (result);
 }
 
-t_matrix3 rotation_matrix_from_orientation(t_vector from, t_vector to)
+t_matrix3 rotation_matrix_from_orientation(t_vector target)
 {
+    t_vector base = {0, 0, 1};
+    double angle_x = acos(dot_product(base, target) / (vector_length(base) * vector_length(target)));
+    t_vector cross = cross_product(base, target);
+    double angle_y = acos(dot_product(cross, target) / (vector_length(cross) * vector_length(target)));
+    t_vector cross2 = cross_product(target, cross);
+    double angle_z = acos(dot_product(cross2, target) / (vector_length(cross2) * vector_length(target)));
     t_matrix3 result;
-    result.a1 = normalize(from);  
-    result.a3 = normalize(cross_product(from, to));
-    result.a2 = normalize(cross_product(result.a3, from));
+    result.a1.x = cos(angle_x);
+    result.a1.y = -sin(angle_x);
+    result.a1.z = 0;
+    result.a2.x = sin(angle_x);
+    result.a2.y = cos(angle_x);
+    result.a2.z = 0;
+    result.a3.x = 0;
+    result.a3.y = 0;
+    result.a3.z = 1;
     return (result);
 }

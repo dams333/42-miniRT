@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 14:01:07 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/13 15:07:24 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/13 15:40:17 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,13 @@ int trace_ray(t_point origin, t_vector ray_direction, float t_min, float t_max, 
             intersect_ray_sphere(origin, ray_direction, *sphere, intersection_distance);
             if(intersection_distance[0] > t_min && intersection_distance[0] < t_max && intersection_distance[0] < closest_t)
             {
-                // If intersection in closer than previous one
+                // If intersection is closer than previous one
                 closest_t = intersection_distance[0];
                 closest_object = obj;
             }
             if(intersection_distance[1] > t_min && intersection_distance[1] < t_max && intersection_distance[1] < closest_t)
             {
-                // If intersection in closer than previous one
+                // If intersection is closer than previous one
                 closest_t = intersection_distance[1];
                 closest_object = obj;
             }   
@@ -96,10 +96,10 @@ void start_rays(t_generic_object *object_list, t_camera_object *camera, t_mlx *m
 
     //Viewport informations (fake screen in the scene)
     float vw = 1;
-	float vh = WINDOW_WIDTH/(float)WINDOW_HEIGHT - 1;
+	float vh = WINDOW_WIDTH/(float)WINDOW_HEIGHT - vw;
 
     //Distance of the viewport from the camera (need to calculate from the FOV)
-	float d = (vw/2)/tan(camera->horizontal_fov/2);
+	float d = (vw/2.0)/tan(camera->horizontal_fov/2.0);
 
     //Parcour all the canvas (window) pixels (start from - and go to + becaus camera is centered and not at the top left of the window)
     for(int x = -WINDOW_WIDTH/2; x <= WINDOW_WIDTH/2; x++)

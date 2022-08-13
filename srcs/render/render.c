@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 14:01:07 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/13 21:09:53 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/13 21:18:50 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,22 +99,17 @@ void start_rays(t_generic_object *object_list, t_camera_object *camera, t_mlx *m
 
     //Distance of the viewport from the camera (need to calculate from the FOV)
 	float d = (vw/2.0)/tan(camera->horizontal_fov/2.0);
-
     printf("d = %f\n", d);
 
     t_vector camera_orientation = {camera->orientation_x, camera->orientation_y, camera->orientation_z};
     camera_orientation = normalize(camera_orientation);
     printf("camera_orientation = %f %f %f\n", camera_orientation.x, camera_orientation.y, camera_orientation.z);
+    
     t_matrix3 rotation_matrix = rotation_matrix_from_orientation(camera_orientation);
     printf("Matrix:\n");
     printf("%f %f %f\n", rotation_matrix.a1.x, rotation_matrix.a2.x, rotation_matrix.a3.x);
     printf("%f %f %f\n", rotation_matrix.a1.y, rotation_matrix.a2.y, rotation_matrix.a3.y);
     printf("%f %f %f\n", rotation_matrix.a1.z, rotation_matrix.a2.z, rotation_matrix.a3.z);
-    /*t_matrix3 rotation_matrix = {
-        {1, 0, 0},
-        {0, 1, 0},
-        {0, 0, 1}
-    };*/
 
     //Parcour all the canvas (window) pixels (start from - and go to + becaus camera is centered and not at the top left of the window)
     for(int x = -WINDOW_WIDTH/2; x <= WINDOW_WIDTH/2; x++)
@@ -122,9 +117,7 @@ void start_rays(t_generic_object *object_list, t_camera_object *camera, t_mlx *m
 		for(int y = -WINDOW_HEIGHT/2; y <= WINDOW_HEIGHT/2; y++)
 		{
             //Convert the canvas pixel coordinates to the viewport coordinates and make a ray from the origin
-            //printf("Canvas to viewport: %f %f %f\n", canvas_to_viewport(x, y, vw, vh, d).x, canvas_to_viewport(x, y, vw, vh, d).y, canvas_to_viewport(x, y, vw, vh, d).z);
 			t_vector ray_direction = matrix_mult_vector(rotation_matrix, canvas_to_viewport(x, y, vw, vh, d));
-            //printf("Ray direction: %f %f %f\n", ray_direction.x, ray_direction.y, ray_direction.z);
             //Trace ray (limited by the big number INF) and find the color of the nearest object
 			int color = trace_ray(origin, ray_direction, d, INF, object_list);
             //Put the color in the window pixel (Adding the WINDOW_WIDTH/2 compensing the initial  offset)

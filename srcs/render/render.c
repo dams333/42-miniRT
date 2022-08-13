@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 14:01:07 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/13 15:40:17 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/13 17:07:29 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,8 @@
 #include "window_props.h"
 #include "geometric.h"
 
-t_point canvas_to_viewport(float x, float y, float vw, float vh, float d, t_vector camera_direction)
+t_point canvas_to_viewport(float x, float y, float vw, float vh, float d)
 {
-    // direction = {0, 0, 1} need to change to take orientation into account
 	t_point p = {x*vw/WINDOW_WIDTH, y*vh/WINDOW_HEIGHT, d};
 	return p;
 }
@@ -108,10 +107,10 @@ void start_rays(t_generic_object *object_list, t_camera_object *camera, t_mlx *m
 		{
             t_vector camera_orientation = {camera->orientation_x, camera->orientation_y, camera->orientation_z};
             //Convert the canvas pixel coordinates to the viewport coordinates and make a ray from the origin
-			t_vector ray_direction = substract(canvas_to_viewport(x, y, vw, vh, d, camera_orientation), origin);
+			t_vector ray_direction = matrix_mult(rotation_matrix_from_orientation(camera_orientation), canvas_to_viewport(x, y, vw, vh, d));
             //Trace ray (limited by the big number INF) and find the color of the nearest object
 			int color = trace_ray(origin, ray_direction, d, INF, object_list);
-            //Put the color in the window pixel (Adding the WINDOW_WIDTH/2 compensing the initial offset)
+            //Put the color in the window pixel (Adding the WINDOW_WIDTH/2 compensing the initial  offset)
             my_pixel_put(mlx, x + WINDOW_WIDTH/2, y + WINDOW_HEIGHT/2, color, false);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 13:47:57 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/13 14:04:31 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/13 17:14:36 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void my_pixel_put(t_mlx *mlx_object, int x, int y, int color, bool put)
 		data = NULL;
 		return ;
 	}
-	if(x < 0 || x > WINDOW_WIDTH || y < 0 || y > WINDOW_HEIGHT)
+	if(x < 0 || x >= WINDOW_WIDTH || y < 0 || y >= WINDOW_HEIGHT)
 		return ;
 	data[y * WINDOW_WIDTH + x] = color;
 }

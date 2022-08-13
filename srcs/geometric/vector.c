@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 13:36:32 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/13 17:17:38 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/13 18:38:18 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,19 @@ double vector_length(t_vector vector)
     return (pow(vector.x, 2) + pow(vector.y, 2) + pow(vector.z, 2));
 }
 
-void normalize(t_vector *vector)
+t_vector normalize(t_vector vector)
 {
     double length;
 
-    length = vector_length(*vector);
-    vector->x /= length;
-    vector->y /= length;
-    vector->z /= length;
+    t_vector result = {vector.x, vector.y, vector.z};
+    length = vector_length(vector);
+    if(length != 0)
+    {
+        result.x /= length;
+        result.y /= length;
+        result.z /= length;
+    }
+    return result;
 }
 
 void vector_add(t_vector *vector, t_vector vector_add)
@@ -73,10 +78,10 @@ float dot_product(t_vector v1, t_vector v2)
     return (result);
 }
 
+//Matrix is defined as (a1, a2, a3) where ax is a vector
 t_vector matrix_mult(t_matrix3 matrix, t_point vector)
 {
-    t_vector result = {vector.x, vector.y, vector.z};;
-
+    t_vector result ;
     result.x = matrix.a1.x * vector.x + matrix.a2.x * vector.y + matrix.a3.x * vector.z;
     result.y = matrix.a1.y * vector.x + matrix.a2.y * vector.y + matrix.a3.y * vector.z;
     result.z = matrix.a1.z * vector.x + matrix.a2.z * vector.y + matrix.a3.z * vector.z;
@@ -93,18 +98,12 @@ t_vector cross_product(t_vector v1, t_vector v2)
     return (result);
 }
 
-t_matrix3 rotation_matrix_from_orientation(t_vector orientation)
+t_matrix3 rotation_matrix_from_orientation(t_vector from, t_vector to)
 {
-    t_vector default_orientation = {0, 0, 1};
-    float angle = acos(dot_product(orientation, default_orientation));
-    t_vector product = cross_product(orientation, default_orientation);
     t_matrix3 result;
-    result.a1 = orientation;
-    result.a2.x = orientation.x * cos(angle) + product.x * sin(angle);
-    result.a2.y = orientation.y * cos(angle) + product.y * sin(angle);
-    result.a2.z = orientation.z * cos(angle) + product.z * sin(angle);
-    result.a3.x = orientation.x * -sin(angle) + product.x * cos(angle);
-    result.a3.y = orientation.y * -sin(angle) + product.y * cos(angle);
-    result.a3.z = orientation.z * -sin(angle) + product.z * cos(angle);
+
+    result.a1 = normalize(from);  
+    result.a3 = normalize(cross_product(from, to));
+    result.a2 = normalize(cross_product(result.a3, from));  
     return (result);
 }

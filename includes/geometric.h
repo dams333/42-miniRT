@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 13:35:07 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/13 17:07:57 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/13 18:22:59 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_matrix3
 }   t_matrix3;
 
 double vector_length(t_vector vector);
-void normalize(t_vector *vector);
+t_vector normalize(t_vector vector);
 void vector_add(t_vector *vector, t_vector vector_add);
 void vector_substract(t_vector *vector, t_vector vector_substract);
 void multiply_by_scalar(t_vector *vector, double scalar);
@@ -48,6 +48,6 @@ void divide_by_scalar(t_vector *vector, double scalar);
 t_vector substract(t_point point1, t_point point2);
 float dot_product(t_vector v1, t_vector v2);
 t_vector matrix_mult(t_matrix3 matrix, t_point vector);
-t_matrix3 rotation_matrix_from_orientation(t_vector orientation);
+t_matrix3 rotation_matrix_from_orientation(t_vector from, t_vector to);
 
 #endif

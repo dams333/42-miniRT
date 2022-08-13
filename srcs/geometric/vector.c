@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 13:36:32 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/13 18:38:18 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/13 20:14:01 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void    from_point(t_vector *vector, t_point point1, t_point point2)
 
 double vector_length(t_vector vector)
 {
-    return (pow(vector.x, 2) + pow(vector.y, 2) + pow(vector.z, 2));
+    return (sqrt(pow(vector.x, 2) + pow(vector.y, 2) + pow(vector.z, 2)));
 }
 
 t_vector normalize(t_vector vector)
@@ -101,9 +101,19 @@ t_vector cross_product(t_vector v1, t_vector v2)
 t_matrix3 rotation_matrix_from_orientation(t_vector from, t_vector to)
 {
     t_matrix3 result;
-
-    result.a1 = normalize(from);  
-    result.a3 = normalize(cross_product(from, to));
-    result.a2 = normalize(cross_product(result.a3, from));  
+    t_vector cross;
+    float dot;
+    
+    cross = cross_product(from, to);
+    dot = dot_product(from, to);
+    result.a1.x = from.x;
+    result.a1.y = from.y;
+    result.a1.z = from.z;
+    result.a2.x = cross.x;
+    result.a2.y = cross.y;
+    result.a2.z = cross.z;
+    result.a3.x = from.x * dot - cross.x;
+    result.a3.y = from.y * dot - cross.y;
+    result.a3.z = from.z * dot - cross.z;
     return (result);
 }

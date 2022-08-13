@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 14:01:07 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/13 18:26:24 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/13 19:56:46 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,14 @@ void start_rays(t_generic_object *object_list, t_camera_object *camera, t_mlx *m
 	float d = (vw/2.0)/tan(camera->horizontal_fov/2.0);
 
     t_vector camera_orientation = {camera->orientation_x, camera->orientation_y, camera->orientation_z};
+    camera_orientation = normalize(camera_orientation);
     t_vector default_orientation = {0, 0, 1};
     t_matrix3 rotation_matrix = rotation_matrix_from_orientation(default_orientation, camera_orientation);
+    /*t_matrix3 rotation_matrix = {
+        {1, 0, 0},
+        {0, 1, 0},
+        {0, 0, 1}
+    };*/
 
     //Parcour all the canvas (window) pixels (start from - and go to + becaus camera is centered and not at the top left of the window)
     for(int x = -WINDOW_WIDTH/2; x <= WINDOW_WIDTH/2; x++)

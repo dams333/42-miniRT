@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 12:41:06 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/06/27 13:06:39 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/13 14:27:43 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ bool	parse_ambient_lightning(char **args, t_generic_object **lst)
 		ft_putendl_fd("Error\nImpossible to parse ambient lightning because one of the color composant in not in [0;255]", 2);
 		return (false);
 	}
-	if (!add_item_to_list(lst, obj, CAMERA))
+	if (!add_item_to_list(lst, obj, AMBIENT_LIGHTNING))
 		return (false);
 	return (true);
 }
@@ -113,7 +113,7 @@ bool	parse_light(char **args, t_generic_object **lst)
 		ft_putendl_fd("Error\nImpossible to parse light because one of the color composant in not in [0;255]", 2);
 		return (false);
 	}
-	if (!add_item_to_list(lst, obj, CAMERA))
+	if (!add_item_to_list(lst, obj, LIGHT))
 		return (false);
 	return (true);
 }

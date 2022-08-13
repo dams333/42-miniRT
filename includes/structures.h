@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 11:43:56 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/12 23:52:06 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/13 14:10:52 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ typedef struct s_sphere_object
 	int		color_r;
 	int		color_g;
 	int		color_b;
-	struct s_sphere_object *next;
 }	t_sphere_object;
 
 typedef struct s_plane_object

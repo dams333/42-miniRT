@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 14:38:43 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/13 00:47:40 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/13 21:56:58 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,13 @@ t_vector substract(t_point point1, t_point point2)
     p.y = point1.y - point2.y;
     p.z = point1.z - point2.z;
     return (p);
+}
+
+t_point add(t_point p, t_vector v)
+{
+    t_point result;
+    result.x = p.x + v.x;
+    result.y = p.y + v.y;
+    result.z = p.z + v.z;
+    return (result);
 }

@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 14:01:07 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/13 21:22:36 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/13 21:59:44 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,32 @@ void intersect_ray_sphere(t_point origin, t_vector ray_direction, t_sphere_objec
 	}
 }
 
+float calcul_lightning(t_point point, t_vector normal, t_generic_object *objects)
+{
+    float i = 0;
+    t_generic_object *obj = objects;
+    while(obj)
+    {
+        if(obj->type == AMBIENT_LIGHTNING)
+        {
+            t_ambient_lightning_object *ambient_lightning = obj->specific_object;
+            i += ambient_lightning->lightning_ratio;
+        }
+        else if(obj->type == LIGHT)
+        {
+            t_light_object *light = obj->specific_object;
+            t_vector light_direction = substract((t_point) {light->coord_x, light->coord_y, light->coord_z}, point);
+            float n_dot_l = dot_product(normal, light_direction);
+            if(n_dot_l > 0)
+            {
+                i += light->brightness_ratio * n_dot_l/(vector_length(normal)*vector_length(light_direction));
+            }
+        }
+        obj = obj->next;
+    }
+    return i;
+}
+
 int trace_ray(t_point origin, t_vector ray_direction, float t_min, float t_max, t_generic_object *objects) {
     float closest_t = t_max;
     t_generic_object *closest_object = NULL;
@@ -83,7 +109,10 @@ int trace_ray(t_point origin, t_vector ray_direction, float t_min, float t_max, 
     if(closest_object->type == SPHERE)
     {
         t_sphere_object *sphere = (t_sphere_object *)closest_object->specific_object;
-        return encode_rgb(sphere->color_r, sphere->color_g, sphere->color_b);
+        t_point point = add(origin, multiply_by_scalar(ray_direction, closest_t));
+        t_vector normal = substract(point, (t_point) {sphere->coord_x, sphere->coord_y, sphere->coord_z});
+        normal = normalize(normal);
+        return encode_rgb(sphere->color_r, sphere->color_g, sphere->color_b) * calcul_lightning(point, normal, objects);
     }
     else
         return 0; //Add more objects (interfaces ?)
@@ -98,18 +127,21 @@ void start_rays(t_generic_object *object_list, t_camera_object *camera, t_mlx *m
 	float vh = WINDOW_WIDTH/(float)WINDOW_HEIGHT - vw;
 
     //Distance of the viewport from the camera (need to calculate from the FOV)
-	float d = (vw*2.0)/tan(camera->horizontal_fov/2.0);
-    printf("d = %f\n", d);
+	//float d = (vw*2.0)/tan(camera->horizontal_fov/2.0);
+    //printf("d = %f\n", d);
+
+    //Fix distane to 1 becaus calculatin bug
+    float d = 1;
 
     t_vector camera_orientation = {camera->orientation_x, camera->orientation_y, camera->orientation_z};
     camera_orientation = normalize(camera_orientation);
-    printf("camera_orientation = %f %f %f\n", camera_orientation.x, camera_orientation.y, camera_orientation.z);
+    //printf("camera_orientation = %f %f %f\n", camera_orientation.x, camera_orientation.y, camera_orientation.z);
     
     t_matrix3 rotation_matrix = rotation_matrix_from_orientation(camera_orientation);
-    printf("Matrix:\n");
-    printf("%f %f %f\n", rotation_matrix.a1.x, rotation_matrix.a2.x, rotation_matrix.a3.x);
-    printf("%f %f %f\n", rotation_matrix.a1.y, rotation_matrix.a2.y, rotation_matrix.a3.y);
-    printf("%f %f %f\n", rotation_matrix.a1.z, rotation_matrix.a2.z, rotation_matrix.a3.z);
+    //printf("Matrix:\n");
+    //printf("%f %f %f\n", rotation_matrix.a1.x, rotation_matrix.a2.x, rotation_matrix.a3.x);
+    //printf("%f %f %f\n", rotation_matrix.a1.y, rotation_matrix.a2.y, rotation_matrix.a3.y);
+    //printf("%f %f %f\n", rotation_matrix.a1.z, rotation_matrix.a2.z, rotation_matrix.a3.z);
 
     //Parcour all the canvas (window) pixels (start from - and go to + becaus camera is centered and not at the top left of the window)
     for(int x = -WINDOW_WIDTH/2; x <= WINDOW_WIDTH/2; x++)

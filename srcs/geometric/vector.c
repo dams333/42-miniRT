@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 13:36:32 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/13 21:13:56 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/13 21:57:15 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,16 @@ void vector_substract(t_vector *vector, t_vector vector_substract)
     vector->z -= vector_substract.z;
 }
 
-void multiply_by_scalar(t_vector *vector, double scalar)
+t_vector substract_vector(t_vector v1, t_vector v2)
 {
-    vector->x *= scalar;
-    vector->y *= scalar;
-    vector->z *= scalar;
+    t_vector result = {v1.x - v2.x, v1.y - v2.y, v1.z - v2.z};
+    return result;
+}
+
+t_vector multiply_by_scalar(t_vector vector, double scalar)
+{
+    t_vector result = {vector.x * scalar, vector.y * scalar, vector.z * scalar};
+    return result;
 }
 
 void divide_by_scalar(t_vector *vector, double scalar)

@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 13:36:32 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/13 20:14:01 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/13 20:43:43 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,14 +78,14 @@ float dot_product(t_vector v1, t_vector v2)
     return (result);
 }
 
-//Matrix is defined as (a1, a2, a3) where ax is a vector
-t_vector matrix_mult(t_matrix3 matrix, t_point vector)
+t_vector matrix_mult(t_matrix3 matrix, t_vector vector)
 {
     t_vector result ;
+    vector = normalize(vector);
     result.x = matrix.a1.x * vector.x + matrix.a2.x * vector.y + matrix.a3.x * vector.z;
     result.y = matrix.a1.y * vector.x + matrix.a2.y * vector.y + matrix.a3.y * vector.z;
     result.z = matrix.a1.z * vector.x + matrix.a2.z * vector.y + matrix.a3.z * vector.z;
-    return (result);
+    return (normalize(result));
 }
 
 t_vector cross_product(t_vector v1, t_vector v2)
@@ -101,19 +101,8 @@ t_vector cross_product(t_vector v1, t_vector v2)
 t_matrix3 rotation_matrix_from_orientation(t_vector from, t_vector to)
 {
     t_matrix3 result;
-    t_vector cross;
-    float dot;
-    
-    cross = cross_product(from, to);
-    dot = dot_product(from, to);
-    result.a1.x = from.x;
-    result.a1.y = from.y;
-    result.a1.z = from.z;
-    result.a2.x = cross.x;
-    result.a2.y = cross.y;
-    result.a2.z = cross.z;
-    result.a3.x = from.x * dot - cross.x;
-    result.a3.y = from.y * dot - cross.y;
-    result.a3.z = from.z * dot - cross.z;
+    result.a1 = normalize(from);  
+    result.a3 = normalize(cross_product(from, to));
+    result.a2 = normalize(cross_product(result.a3, from));
     return (result);
 }

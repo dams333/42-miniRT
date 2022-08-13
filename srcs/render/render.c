@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 14:01:07 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/13 19:56:46 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/13 20:43:00 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@
 #include "window_props.h"
 #include "geometric.h"
 
-t_point canvas_to_viewport(float x, float y, float vw, float vh, float d)
+t_vector canvas_to_viewport(float x, float y, float vw, float vh, float d)
 {
-	t_point p = {x*vw/WINDOW_WIDTH, y*vh/WINDOW_HEIGHT, d};
+	t_vector p = {x*vw/WINDOW_WIDTH, y*vh/WINDOW_HEIGHT, d};
 	return p;
 }
 
@@ -116,9 +116,9 @@ void start_rays(t_generic_object *object_list, t_camera_object *camera, t_mlx *m
 		for(int y = -WINDOW_HEIGHT/2; y <= WINDOW_HEIGHT/2; y++)
 		{
             //Convert the canvas pixel coordinates to the viewport coordinates and make a ray from the origin
-            //printf("Canvas to viewport: %f %f %f\n", canvas_to_viewport(x, y, vw, vh, d).x, canvas_to_viewport(x, y, vw, vh, d).y, canvas_to_viewport(x, y, vw, vh, d).z);
+            printf("Canvas to viewport: %f %f %f\n", canvas_to_viewport(x, y, vw, vh, d).x, canvas_to_viewport(x, y, vw, vh, d).y, canvas_to_viewport(x, y, vw, vh, d).z);
 			t_vector ray_direction = matrix_mult(rotation_matrix, canvas_to_viewport(x, y, vw, vh, d));
-            //printf("Ray direction: %f %f %f\n", ray_direction.x, ray_direction.y, ray_direction.z);
+            printf("Ray direction: %f %f %f\n", ray_direction.x, ray_direction.y, ray_direction.z);
             //Trace ray (limited by the big number INF) and find the color of the nearest object
 			int color = trace_ray(origin, ray_direction, d, INF, object_list);
             //Put the color in the window pixel (Adding the WINDOW_WIDTH/2 compensing the initial  offset)

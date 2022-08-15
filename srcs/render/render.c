@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 14:01:07 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/13 22:01:36 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/15 11:01:16 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,11 @@ int trace_ray(t_point origin, t_vector ray_direction, float t_min, float t_max, 
         return 0; //Add more objects (interfaces ?)
 }
 
+float degrees_to_radian(float degrees)
+{
+    return degrees * M_PI / 180;
+}
+
 void start_rays(t_generic_object *object_list, t_camera_object *camera, t_mlx *mlx)
 {
     t_point origin = {camera->coord_x, camera->coord_y, camera->coord_z};
@@ -127,11 +132,14 @@ void start_rays(t_generic_object *object_list, t_camera_object *camera, t_mlx *m
 	float vh = WINDOW_WIDTH/(float)WINDOW_HEIGHT - vw;
 
     //Distance of the viewport from the camera (need to calculate from the FOV)
-	//float d = (vw*2.0)/tan(camera->horizontal_fov/2.0);
-    //printf("d = %f\n", d);
+	float d = (vw/2.0)/tan(degrees_to_radian(camera->horizontal_fov/2.0));
+    printf("d = (%f/2.0)/tan(%d/2.0)\n", vw, camera->horizontal_fov);
+    printf("d= %f/tan(%f)\n", vw/2.0, camera->horizontal_fov/2.0);
+    printf("d= %f/%f\n", vw/2.0, tan(degrees_to_radian(camera->horizontal_fov/2.0)));
+    printf("d = %f\n", d);
 
     //Fix distane to 1 becaus calculatin bug
-    float d = 1;
+    //float d = 1;
 
     t_vector camera_orientation = {camera->orientation_x, camera->orientation_y, camera->orientation_z};
     camera_orientation = normalize(camera_orientation);

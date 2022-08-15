@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 14:01:07 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/15 11:17:35 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/15 11:40:34 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,34 @@ void intersect_ray_sphere(t_point origin, t_vector ray_direction, t_sphere_objec
 	}
 }
 
-float calcul_lightning(t_point point, t_vector normal, t_generic_object *objects)
+void add_ambiant_light(t_ambient_lightning_object *light, float lights[3])
 {
-    float i = 0;
+    float total = light->color_r + light->color_g + light->color_b;
+    lights[0] += (light->color_r / total) * light->lightning_ratio;
+    lights[1] += (light->color_g / total) * light->lightning_ratio;
+    lights[2] += (light->color_b / total) * light->lightning_ratio;
+}
+
+void add_light(t_light_object *light, float lights[3], float n_dot_l, t_vector normal, t_vector light_direction)
+{
+    float total = light->color_r + light->color_g + light->color_b;
+    lights[0] += (light->color_r / total) * light->brightness_ratio * n_dot_l/(vector_length(normal)*vector_length(light_direction));
+    lights[1] += (light->color_g / total) * light->brightness_ratio * n_dot_l/(vector_length(normal)*vector_length(light_direction));
+    lights[2] += (light->color_b / total) * light->brightness_ratio * n_dot_l/(vector_length(normal)*vector_length(light_direction));
+}
+
+void calcul_lightning(t_point point, t_vector normal, t_generic_object *objects, float lights[3])
+{
+    lights[0] = 0;
+    lights[1] = 0;
+    lights[2] = 0;
     t_generic_object *obj = objects;
     while(obj)
     {
         if(obj->type == AMBIENT_LIGHTNING)
         {
             t_ambient_lightning_object *ambient_lightning = obj->specific_object;
-            i += ambient_lightning->lightning_ratio;
+            add_ambiant_light(ambient_lightning, lights);
         }
         else if(obj->type == LIGHT)
         {
@@ -66,12 +84,17 @@ float calcul_lightning(t_point point, t_vector normal, t_generic_object *objects
             float n_dot_l = dot_product(normal, light_direction);
             if(n_dot_l > 0)
             {
-                i += light->brightness_ratio * n_dot_l/(vector_length(normal)*vector_length(light_direction));
+                add_light(light, lights, n_dot_l, normal, light_direction);
             }
         }
         obj = obj->next;
     }
-    return i;
+    if(lights[0] > 1)
+        lights[0] = 1;
+    if(lights[1] > 1)
+        lights[1] = 1;
+    if(lights[2] > 1) 
+        lights[2] = 1;
 }
 
 int trace_ray(t_point origin, t_vector ray_direction, float t_min, float t_max, t_generic_object *objects) {
@@ -112,7 +135,9 @@ int trace_ray(t_point origin, t_vector ray_direction, float t_min, float t_max, 
         t_point point = add(origin, multiply_by_scalar(ray_direction, closest_t));
         t_vector normal = substract(point, (t_point) {sphere->coord_x, sphere->coord_y, sphere->coord_z});
         normal = normalize(normal);
-        return encode_rgb(sphere->color_r * calcul_lightning(point, normal, objects), sphere->color_g * calcul_lightning(point, normal, objects), sphere->color_b * calcul_lightning(point, normal, objects));
+        float light[3];
+        calcul_lightning(point, normal, objects, light);
+        return encode_rgb(sphere->color_r * light[0], sphere->color_g * light[1], sphere->color_b * light[2]);
     }
     else
         return 0; //Add more objects (interfaces ?)

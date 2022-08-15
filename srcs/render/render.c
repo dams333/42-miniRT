@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 14:01:07 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/15 11:40:34 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/15 13:04:48 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,34 @@ void calcul_lightning(t_point point, t_vector normal, t_generic_object *objects,
         lights[2] = 1;
 }
 
+float calcul_global_lightning(t_point point, t_vector normal, t_generic_object *objects)
+{
+    float i = 0;
+    t_generic_object *obj = objects;
+    while(obj)
+    {
+        if(obj->type == AMBIENT_LIGHTNING)
+        {
+            t_ambient_lightning_object *ambient_lightning = obj->specific_object;
+            i += ambient_lightning->lightning_ratio;
+        }
+        else if(obj->type == LIGHT)
+        {
+            t_light_object *light = obj->specific_object;
+            t_vector light_direction = substract((t_point) {light->coord_x, light->coord_y, light->coord_z}, point);
+            float n_dot_l = dot_product(normal, light_direction);
+            if(n_dot_l > 0)
+            {
+                i += light->brightness_ratio * n_dot_l/(vector_length(normal)*vector_length(light_direction));
+            }
+        }
+        obj = obj->next;
+    }
+    if(i > 1)
+        i = 1;
+    return i;
+}
+
 int trace_ray(t_point origin, t_vector ray_direction, float t_min, float t_max, t_generic_object *objects) {
     float closest_t = t_max;
     t_generic_object *closest_object = NULL;
@@ -137,7 +165,12 @@ int trace_ray(t_point origin, t_vector ray_direction, float t_min, float t_max, 
         normal = normalize(normal);
         float light[3];
         calcul_lightning(point, normal, objects, light);
-        return encode_rgb(sphere->color_r * light[0], sphere->color_g * light[1], sphere->color_b * light[2]);
+        float lightning = calcul_global_lightning(point, normal, objects);
+        float color_red = sphere->color_r * 0.5 * lightning + light[0] * 255 * 0.5 * lightning;
+        float color_green = sphere->color_g * 0.5 * lightning + light[1] * 255 * 0.5 * lightning;
+        float color_blue = sphere->color_b * 0.5 * lightning + light[2] * 255 * 0.5 * lightning;
+        return encode_rgb(color_red, color_green, color_blue);
+        //return encode_rgb(sphere->color_r * lightning + light[0] * 255 > 255 ? 255 : sphere->color_r * lightning + light[0] * 255, sphere->color_g * lightning + light[1] * 255 > 255 ? 255 : sphere->color_g * lightning + light[1] * 255, sphere->color_b * lightning + light[2] * 255 > 255 ? 255 : sphere->color_b * lightning + light[2] * 255);
     }
     else
         return 0; //Add more objects (interfaces ?)

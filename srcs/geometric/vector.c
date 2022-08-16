@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 13:36:32 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/08/13 21:57:15 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/08/17 00:06:11 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,16 +81,6 @@ float dot_product(t_vector v1, t_vector v2)
     result += v1.y * v2.y;
     result += v1.z * v2.z;
     return (result);
-}
-
-t_vector matrix_mult_vector(t_matrix3 matrix, t_vector vector)
-{
-    t_vector result ;
-    vector = normalize(vector);
-    result.x = matrix.a1.x * vector.x + matrix.a2.x * vector.y + matrix.a3.x * vector.z;
-    result.y = matrix.a1.y * vector.x + matrix.a2.y * vector.y + matrix.a3.y * vector.z;
-    result.z = matrix.a1.z * vector.x + matrix.a2.z * vector.y + matrix.a3.z * vector.z;
-    return (normalize(result));
 }
 
 t_matrix3 matrix_mult(t_matrix3 m1, t_matrix3 m2)

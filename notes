@@ -1,0 +1,78 @@
+Alors, il va me falloir une fonction pour centrer la caméra
+
+Pour la caméra c'est simple, son X, Y, Z passe à 0.0 partout
+Et son 3D normalized orientation vector passe à (0.0; 0.0; 1.0)
+
+Pour une light, il faut juste décaler son X, Y, Z en fonction de la caméra (PosL - PosC)
+
+Pour une sphere, un plan et un cylindre c'est pareil
+
+Cette fonction, prend une liste de positions et la position de la caméra
+
+--------------------------------
+
+Ensuite, il va me falloir une fonction pour orienter la caméra dans le bon sens
+À ce niveau là, cf. les notes du carnet (Ça ça fonctionne en 2D, faut voir pour faire la version 3D)
+
+Par rapport à ce que j'ai pu noter dans le carnet, faut également noter la distance entre la caméra et le point
+
+Reprenons depuis le début
+---------------------------------
+On a une caméra (positionné en 0;0), et un point à bouger pour faire la rotation
+Pour chaque étape on peut faire des fonctions différentes, ça peut être pas mal
+- On va calculer la distance => Pythagore
+- On va calculer l'angle => C'est un genre de pythagore chiant aussi, avec cos⁻¹ et tout
+
+- Faut calculer l'angle entre la direction de la caméra et l'axe du bas
+- Ça se fait au feeling ça aussi
+Allez zou
+----------------------------------
+Comment on calcule l'angle formé par l'axe des abcisses, l'origine et le point à rotate ?
+On sait que cos(teta) = coordonnées x de teta
+Donc que cos⁻¹(x) = teta
+(Tout ça fonctionne que sur un quart de cercle)
+
+Comment on fait pour le déployer sur le cercle complet du coup ?
+
+
+
+
+
+
+-------------------------------
+
+
+
+
+
+
+
+
+Comment le faire en 3D ?
+On fait en 2D sur 2 axes puis encore en 2D sur 2 axes.
+On a pas besoin de tourner les vecteurs, c'est géré magnifiquement tout seul
+
+-------------------------------
+
+En attendant, il faut que je trouve un moyen de faire un style d'interface
+
+Hmm, ca m'a l'air chaud mais go prendre une alternative
+J'ai envie d'avoir une liste de void * et de boucler dessus et d'appeler une fonction en fonction, mais c'est dégueu
+
+Hmmm, go faire un système de register en vrai
+
+Faisons tout ça avec des exemples:
+- Je vais avoir un fichier qui va se nommer Spatial, Point, Character
+- 
+
+
+Rohh pour le moment je vais faire un truc dégueu
+
+Chaque objet sera englobé par une structure
+Cette structure contiendra :
+- Un void * contenant l'objet en lui même
+- Une variable désignant le type de l'objet
+- Une liste d'interface
+
+Comment on définit une interface ?
+- Structure qui contient un type associé à un pointeur sur fonction pour extraire les informations de l'interface à partir du void *

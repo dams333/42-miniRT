@@ -1,0 +1,40 @@
+On va prendre quelques notes pour découvrir comment tout fonctionne et tout ce qu'on va faire
+Au début on parse la map, et on obtient en échange un objet t_generic_object
+Ensuite, on fait des trucs un peu osef (on lance la fenêtre et on définit comment on peut fermer la fenêtre)
+Enfin, on appelle notre fonction qui permet d'afficher et on rendre dans notre boucle inf
+
+Question importante : comment est structuré l'objet qu'on récupère après parsing ?
+
+Okey, chaque objet est composé de son type (enum), de l'objet en question et du prochain objet à afficher
+=> En vrai, c'est clairement pas une structure qui m'intéresse, il va falloir changer ça, ça sera pas pratique (ou pas, à voir)
+
+Et du coup, en fonction du type donné, on peut récupérer l'objet voulu et les paramètres qui vont avec
+
+OKEYYY, on peut y aller
+
+Première étape je pense : pour que ce soit plus simple, on va vouloir placer notre caméra en (0;0)
+Pour cela, ça va être easy, on va simplement soustraire à chaque élément de la scène, la position actuelle de la caméra : comme ça, la caméra se retrouve en (0;0) et tous les autres éléments n'ont pas bougé du point de vue de la caméra
+
+Hmm, après je vois pas le soucis à ce que la caméra ne soit pas pointé sur un axe en particulier. Go tenter sans modifier ça
+
+
+Okeyy, le parsing est plutôt dégueu, on va faire en sorte d'avoir quelque cchose d'un peu meilleur
+
+Déjà le concept d'interface : tout ce qui peut être nommé selon l'interface devra contenir un objet qui représentera l'interface
+Par exemple, tous les objets ayant la caractéristique de pouvoir se situer dans l'espace (Ex: camera oui, ambiant light non), devront avoir une stucture t_point dans leur objet
+
+Hmm, attend encore un peu
+Et si on avait un genre de tableau qui contiendrait une structure qui associerait un type (enum) avec un objet
+Ça serait notre liste d'interface
+
+On pourrait avoir une case qui contient (type = point, objet => point)
+
+Hmm, mais du coup c'est chiant parce-que toutes les infos sont cachées, on peut pas les modifier facilement
+
+Sinon on peut oublier l'héritage et simplement ne pas mélanger les choses qui vont pas ensemble.
+
+On a différents types d'objets : les objets qui ont une position, etc
+
+Mais en vrai ce concept d'interface me plait beaucoup
+
+

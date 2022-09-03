@@ -6,9 +6,20 @@
 /*   By: jmaia <jmaia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 18:50:33 by jmaia             #+#    #+#             */
-/*   Updated: 2022/08/31 11:25:31 by jmaia            ###   ###               */
+/*   Updated: 2022/09/03 16:52:22 by jmaia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <math.h>
+
+#include "libft.h"
+
+#include "interfaces/i_position.h"
+#include "math_utils.h"
+
+static double	get_angle(double x, double y);
+static double	get_distance(double x1, double y1, double x2, double y2);
+static void		rotate_object(t_i_3d_vec *pos, t_i_3d_vec camera_vec);
 
 // A call to this function assume that camera's pos is (0;0)
 void	rotate_camera_to_z(t_i_3d_vec camera_vec, t_list *pos)
@@ -17,7 +28,7 @@ void	rotate_camera_to_z(t_i_3d_vec camera_vec, t_list *pos)
 	t_i_3d_vec	*cur_pos;
 
 	cur = pos;
-	while (*cur)
+	while (cur)
 	{
 		cur_pos = (t_i_3d_vec *) pos->content;
 		rotate_object(cur_pos, camera_vec);
@@ -56,13 +67,14 @@ static double	get_angle(double x, double y)
 {
 	double	base_angle;
 
-	base_angle = atan(abs(y) / abs(x));
+	base_angle = atan(ft_abs(y) / ft_abs(x));
 	if (x > 0 && y > 0)
 		return (base_angle);
 	if (x < 0 && y > 0)
-		return (PI - base_angle);
+		return (M_PI - base_angle);
 	if (x < 0 && y < 0)
-		return (PI + base_angle);
+		return (M_PI + base_angle);
 	if (x > 0 && y < 0)
-		return (2*PI - base_angle);
+		return (2 * M_PI - base_angle);
+	return (0);
 }

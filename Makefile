@@ -1,12 +1,15 @@
 NAME		=	miniRT
 
 SRCS		=	main.c \
+				math_utils.c \
 				$(addprefix parser/, \
+					center_camera.c \
+					generate_list.c \
 					parser.c \
 					parse_c_a_l.c \
 					parse_sp_pl_cy.c \
 					parse_util.c \
-					generate_list.c \
+					rotate_camera_to_z.c \
 				) \
 				$(addprefix geometric/, \
 					point.c \
@@ -24,7 +27,7 @@ OBJS_DEPEND	=	${OBJS:.o=.d}
 
 CC			=	cc
 CFLAGS		=	-Wall -Werror -Wextra
-INCLUDE		=	-I includes/ -I libs/minilibx-linux/
+INCLUDE		=	-I includes/ -I includes/interfaces -I libs/minilibx-linux/
 LIBS		=	libs/libft/libft.a libs/minilibx-linux/libmlx.a
 EXT_LIBS	=	-lm -lbsd -lX11 -lXext
 

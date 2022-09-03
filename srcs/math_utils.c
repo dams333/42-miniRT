@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   i_position.h                                       :+:      :+:    :+:   */
+/*   math_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jmaia <jmaia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/26 13:27:21 by jmaia             #+#    #+#             */
-/*   Updated: 2022/09/03 16:51:23 by jmaia            ###   ########.fr       */
+/*   Created: 2022/09/03 16:46:56 by jmaia             #+#    #+#             */
+/*   Updated: 2022/09/03 16:47:38 by jmaia            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef I_POSITION_H
-# define I_POSITION_H
+#include "math_utils.h"
 
-typedef struct s_i_3d_vec
+double	ft_abs(double nbr)
 {
-	double	*x;
-	double	*y;
-	double	*z;
-}	t_i_3d_vec;
-
-#endif
+	if (nbr < 0)
+		return (-nbr);
+	return (nbr);
+}

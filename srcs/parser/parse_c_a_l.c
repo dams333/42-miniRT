@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 12:41:06 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/06/27 13:06:39 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/09/04 16:40:48 by jmaia            ###   ###               */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ bool	parse_camera(char **args, t_generic_object **lst)
 		ft_putendl_fd("Error\nA malloc failed during parsing", 2);
 		return (false);
 	}
-	if (!parse_three_floats(args[1], &(obj->coord_x), &(obj->coord_y), &(obj->coord_z)))
+	if (!parse_three_doubles(args[1], &(obj->coord_x), &(obj->coord_y), &(obj->coord_z)))
 		return (false);
-	if (!parse_three_floats(args[2], &(obj->orientation_x), &(obj->orientation_y), &(obj->orientation_z)))
+	if (!parse_three_doubles(args[2], &(obj->orientation_x), &(obj->orientation_y), &(obj->orientation_z)))
 		return (false);
 	if (obj->orientation_x < -1 || obj->orientation_x > 1 || obj->orientation_y < -1 || obj->orientation_y > 1 || obj->orientation_z < -1 || obj->orientation_z > 1)
 	{
@@ -63,7 +63,7 @@ bool	parse_ambient_lightning(char **args, t_generic_object **lst)
 		ft_putendl_fd("Error\nA malloc failed during parsing", 2);
 		return (false);
 	}
-	if (!parse_float(args[1], &(obj->lightning_ratio)))
+	if (!parse_double(args[1], &(obj->lightning_ratio)))
 		return (false);
 	if (obj->lightning_ratio < 0 || obj->lightning_ratio > 1)
 	{
@@ -97,9 +97,9 @@ bool	parse_light(char **args, t_generic_object **lst)
 		ft_putendl_fd("Error\nA malloc failed during parsing", 2);
 		return (false);
 	}
-	if (!parse_three_floats(args[1], &(obj->coord_x), &(obj->coord_y), &(obj->coord_z)))
+	if (!parse_three_doubles(args[1], &(obj->coord_x), &(obj->coord_y), &(obj->coord_z)))
 		return (false);
-	if (!parse_float(args[2], &(obj->brightness_ratio)))
+	if (!parse_double(args[2], &(obj->brightness_ratio)))
 		return (false);
 	if (obj->brightness_ratio < 0 || obj->brightness_ratio > 1)
 	{

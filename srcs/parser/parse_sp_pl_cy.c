@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 10:26:02 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/06/27 13:06:49 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/09/04 16:41:01 by jmaia            ###   ###               */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ bool	parse_sphere(char **args, t_generic_object **lst)
 		ft_putendl_fd("Error\nA malloc failed during parsing", 2);
 		return (false);
 	}
-	if (!parse_three_floats(args[1], &(obj->coord_x), &(obj->coord_y), &(obj->coord_z)))
+	if (!parse_three_doubles(args[1], &(obj->coord_x), &(obj->coord_y), &(obj->coord_z)))
 		return (false);
-	if (!parse_float(args[2], &(obj->diameter)))
+	if (!parse_double(args[2], &(obj->diameter)))
 		return (false);
 	if (obj->diameter < 0)
 	{
@@ -43,7 +43,7 @@ bool	parse_sphere(char **args, t_generic_object **lst)
 		ft_putendl_fd("Error\nImpossible to parse sphere because one of the color composant in not in [0;255]", 2);
 		return (false);
 	}
-	if (!add_item_to_list(lst, obj, CAMERA))
+	if (!add_item_to_list(lst, obj, SPHERE))
 		return (false);
 	return (true);
 }
@@ -63,9 +63,9 @@ bool	parse_plane(char **args, t_generic_object **lst)
 		ft_putendl_fd("Error\nA malloc failed during parsing", 2);
 		return (false);
 	}
-	if (!parse_three_floats(args[1], &(obj->coord_x), &(obj->coord_y), &(obj->coord_z)))
+	if (!parse_three_doubles(args[1], &(obj->coord_x), &(obj->coord_y), &(obj->coord_z)))
 		return (false);
-	if (!parse_three_floats(args[2], &(obj->orientation_x), &(obj->orientation_y), &(obj->orientation_z)))
+	if (!parse_three_doubles(args[2], &(obj->orientation_x), &(obj->orientation_y), &(obj->orientation_z)))
 		return (false);
 	if (obj->orientation_x < -1 || obj->orientation_x > 1 || obj->orientation_y < -1 || obj->orientation_y > 1 || obj->orientation_z < -1 || obj->orientation_z > 1)
 	{
@@ -99,23 +99,23 @@ bool	parse_cylinder(char **args, t_generic_object **lst)
 		ft_putendl_fd("Error\nA malloc failed during parsing", 2);
 		return (false);
 	}
-	if (!parse_three_floats(args[1], &(obj->coord_x), &(obj->coord_y), &(obj->coord_z)))
+	if (!parse_three_doubles(args[1], &(obj->coord_x), &(obj->coord_y), &(obj->coord_z)))
 		return (false);
-	if (!parse_three_floats(args[2], &(obj->orientation_x), &(obj->orientation_y), &(obj->orientation_z)))
+	if (!parse_three_doubles(args[2], &(obj->orientation_x), &(obj->orientation_y), &(obj->orientation_z)))
 		return (false);
 	if (obj->orientation_x < -1 || obj->orientation_x > 1 || obj->orientation_y < -1 || obj->orientation_y > 1 || obj->orientation_z < -1 || obj->orientation_z > 1)
 	{
 		ft_putendl_fd("Error\nImpossible to parse cylinder because one composant of the orientation vector is not in [-1;1]", 2);
 		return (false);
 	}
-	if (!parse_float(args[3], &(obj->diameter)))
+	if (!parse_double(args[3], &(obj->diameter)))
 		return (false);
 	if (obj->diameter < 0)
 	{
 		ft_putendl_fd("Error\nImpossible to parse cylinder because diameter is < 0", 2);
 		return (false);
 	}
-	if (!parse_float(args[4], &(obj->height)))
+	if (!parse_double(args[4], &(obj->height)))
 		return (false);
 	if (obj->height < 0)
 	{

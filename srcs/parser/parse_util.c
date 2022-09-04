@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/17 12:19:05 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/05/18 14:20:12 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/09/04 16:41:44 by jmaia            ###   ###               */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static bool get_part(char *str, int *value)
 	return (true);
 }
 
-bool	parse_float(char *str, float *value)
+bool	parse_double(char *str, double *value)
 {
 	char	**split;
 	int		entire;
@@ -69,20 +69,20 @@ bool	parse_float(char *str, float *value)
 	}
 	if (get_split_size(split) < 1 || get_split_size(split) > 2)
 	{
-		ft_putstr_fd("Error\nImpossible to parse float: ", 2);
+		ft_putstr_fd("Error\nImpossible to parse double: ", 2);
 		ft_putendl_fd(str, 2);
 		return (false);
 	}
 	if (!get_part(split[0], &entire) || !get_part(split[1], &fractional))
 	{
-		ft_putstr_fd("Error\nImpossible to parse float: ", 2);
+		ft_putstr_fd("Error\nImpossible to parse double: ", 2);
 		ft_putendl_fd(str, 2);
 		return (false);
 	}
 	if (fractional == 0)
 		*value = entire;
 	else
-		*value = entire + (((float) fractional) / ((float) pow(10, ft_strlen(split[1]))));
+		*value = entire + (((double) fractional) / ((double) pow(10, ft_strlen(split[1]))));
 	*value *= sign;
 	return (true);
 }
@@ -108,7 +108,7 @@ bool	parse_int(char *str, int *value)
 	return (true);
 }
 
-bool	parse_three_floats(char *str, float *value1, float *value2, float *value3)
+bool	parse_three_doubles(char *str, double *value1, double *value2, double *value3)
 {
 	char	**split;
 
@@ -120,14 +120,14 @@ bool	parse_three_floats(char *str, float *value1, float *value2, float *value3)
 	}
 	if (get_split_size(split) != 3)
 	{
-		ft_putendl_fd("Error\nImpossible to parse 3 floats comma separated", 2);
+		ft_putendl_fd("Error\nImpossible to parse 3 doubles comma separated", 2);
 		return (false);
 	}
-	if (!parse_float(split[0], value1))
+	if (!parse_double(split[0], value1))
 		return (false);
-	if (!parse_float(split[1], value2))
+	if (!parse_double(split[1], value2))
 		return (false);
-	if (!parse_float(split[2], value3))
+	if (!parse_double(split[2], value3))
 		return (false);
 	return (true);
 }

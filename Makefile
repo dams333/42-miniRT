@@ -18,6 +18,7 @@ SRCS		=	main.c \
 				$(addprefix render/, \
 					events.c \
 					mlx_utils.c \
+					render.c \
 				)
 
 
@@ -26,7 +27,7 @@ OBJS		=	$(addprefix build/, $(_OBJS))
 OBJS_DEPEND	=	${OBJS:.o=.d}
 
 CC			=	cc
-CFLAGS		=	-Wall -Werror -Wextra
+CFLAGS		=	-Wall -Werror -Wextra -g3 -O0
 INCLUDE		=	-I includes/ -I includes/interfaces -I libs/minilibx-linux/
 LIBS		=	libs/libft/libft.a libs/minilibx-linux/libmlx.a
 EXT_LIBS	=	-lm -lbsd -lX11 -lXext

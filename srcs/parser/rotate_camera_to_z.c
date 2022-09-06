@@ -6,7 +6,7 @@
 /*   By: jmaia <jmaia@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 18:50:33 by jmaia             #+#    #+#             */
-/*   Updated: 2022/09/03 16:52:22 by jmaia            ###   ########.fr       */
+/*   Updated: 2022/09/06 17:36:33 by jmaia            ###   ###               */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static double	get_angle(double x, double y)
 {
 	double	base_angle;
 
-	base_angle = atan(ft_abs(y) / ft_abs(x));
+	base_angle = atan(1.0 * ft_abs(y) / ft_abs(x));
 	if (x > 0 && y > 0)
 		return (base_angle);
 	if (x < 0 && y > 0)

@@ -16,6 +16,7 @@ SRCS		=	main.c \
 					vector.c \
 				) \
 				$(addprefix render/, \
+					compute_lighting.c \
 					events.c \
 					mlx_utils.c \
 					render.c \

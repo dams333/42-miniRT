@@ -9,6 +9,10 @@ SRCS		=	main.c \
 					parse_util.c \
 					parse_util2.c \
 					generate_list.c \
+				) \
+				$(addprefix render/, \
+					events.c \
+					mlx_utils.c \
 				)
 
 

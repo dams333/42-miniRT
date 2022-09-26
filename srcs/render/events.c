@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 14:56:56 by jmaia             #+#    #+#             */
-/*   Updated: 2022/09/26 17:47:00 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/09/26 18:24:31 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,35 @@ static int	on_key_press(int keycode, void *param)
 				sphere->diameter = 0;
 		}
 	}
-	if(keycode == XK_bracketright)
+	else if(keycode == XK_bracketright)
 	{
 		if(params->parsing->selected && params->parsing->selected->type == SPHERE)
 		{
 			t_sphere_object *sphere = (t_sphere_object *)params->parsing->selected->specific_object;
 			sphere->diameter += 0.1;
 		}
+	}
+	else if(keycode == XK_w)
+	{
+		t_vector ori = normalize((t_vector) {params->parsing->camera->orientation_x, params->parsing->camera->orientation_y, params->parsing->camera->orientation_z});
+		params->parsing->camera->coord_x += ori.x * 0.1;
+		params->parsing->camera->coord_y += ori.y * 0.1;
+		params->parsing->camera->coord_z += ori.z * 0.1;
+	}
+	else if(keycode == XK_s)
+	{
+		t_vector ori = normalize((t_vector) {params->parsing->camera->orientation_x, params->parsing->camera->orientation_y, params->parsing->camera->orientation_z});
+		params->parsing->camera->coord_x -= ori.x * 0.1;
+		params->parsing->camera->coord_y -= ori.y * 0.1;
+		params->parsing->camera->coord_z -= ori.z * 0.1;
+	}
+	else if(keycode == XK_space)
+	{
+		params->parsing->camera->coord_y -= 0.1;
+	}
+	else if(keycode == XK_Shift_L)
+	{
+		params->parsing->camera->coord_y += 0.1;
 	}
 	start_rays(params->parsing, params->mlx);
 	return (0);

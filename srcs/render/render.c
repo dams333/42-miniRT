@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 14:01:07 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/09/26 16:32:09 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/09/26 16:46:37 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,37 @@ float calcul_global_lightning(t_point point, t_vector normal, t_generic_object *
     if(i > 1)
         i = 1;
     return i;
+}
+
+t_generic_object *compute_intersection(t_point origin, t_vector ray_destination, float t_min, float t_max, t_parsing *parsing)
+{
+    float closest_t = t_max;
+    t_generic_object *closest_object = NULL;
+    t_generic_object *obj = parsing->hittables;
+
+	while(obj != NULL)
+	{
+        if(obj->type == SPHERE)
+        {
+            float intersection_distance[2];
+            t_sphere_object *sphere = (t_sphere_object *)obj->specific_object;
+            intersect_ray_sphere(origin, ray_destination, *sphere, intersection_distance);
+            if(intersection_distance[0] > t_min && intersection_distance[0] < t_max && intersection_distance[0] < closest_t)
+            {
+                // If intersection is closer than previous one
+                closest_t = intersection_distance[0];
+                closest_object = obj;
+            }
+            if(intersection_distance[1] > t_min && intersection_distance[1] < t_max && intersection_distance[1] < closest_t)
+            {
+                // If intersection is closer than previous one
+                closest_t = intersection_distance[1];
+                closest_object = obj;
+            }   
+        }
+		obj = obj->next;
+	}
+    return (closest_object);
 }
 
 int trace_ray(t_point origin, t_vector ray_destination, float t_min, float t_max, t_parsing *parsing) {

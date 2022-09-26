@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 13:35:07 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/09/26 16:16:13 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/09/26 16:48:35 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,7 @@ float dot_product(t_vector v1, t_vector v2);
 t_matrix3 rotation_matrix_from_orientation(t_vector target);
 t_vector substract_vector(t_vector v1, t_vector v2);
 t_point add(t_point p, t_vector v);
+
+float degrees_to_radian(float degrees);
 
 #endif

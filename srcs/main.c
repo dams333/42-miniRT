@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 17:19:23 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/09/26 16:37:26 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/09/26 16:45:46 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	main(int argc, char **argv)
 	parsing.ambient_lightning = NULL;
 	parsing.lights = NULL;
 	parsing.hittables = NULL;
+	parsing.selected = NULL;
 	if (parse_map(argc, argv, &parsing) == false)
 	{
 		free_parse(&parsing);

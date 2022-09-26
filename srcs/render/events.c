@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 14:56:56 by jmaia             #+#    #+#             */
-/*   Updated: 2022/09/26 16:58:52 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/09/26 17:47:00 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,20 @@ static int	on_key_press(int keycode, void *param);
 static int	on_close_window(void *param);
 static int	on_mouse_press(int code, int x, int y, void *param);
 
-void	init_events(t_xvar *xvar, t_win_list *win, t_parsing *parsing)
+void	init_events(t_param *param)
 {
-	mlx_hook(win, 33, 1L << 17, &on_close_window, xvar);
-	mlx_key_hook(win, &on_key_press, xvar);
-	mlx_mouse_hook(win, &on_mouse_press, parsing);
+	mlx_hook(param->mlx->win, 33, 1L << 17, &on_close_window, param);
+	mlx_key_hook(param->mlx->win, &on_key_press, param);
+	mlx_mouse_hook(param->mlx->win, &on_mouse_press, param);
 }
 
 static int	on_mouse_press(int code, int x, int y, void *param)
 {
+	t_param		*params;
 	t_parsing	*parsing;
 
-	parsing = (t_parsing *)param;
+	params = (t_param *)param;
+	parsing = params->parsing;
 	t_point origin = {parsing->camera->coord_x, parsing->camera->coord_y, parsing->camera->coord_z};
 	float vw = 1;
 	float vh = WINDOW_HEIGHT/(float)WINDOW_WIDTH * vw;
@@ -67,19 +69,42 @@ static int	on_mouse_press(int code, int x, int y, void *param)
 
 static int	on_key_press(int keycode, void *param)
 {
+	t_param		*params;
 	t_xvar	*xvar;
 
-	xvar = (t_xvar *) param;
+	params = (t_param *)param;
+	xvar = params->mlx->mlx;
 	if (keycode == XK_Escape)
 		mlx_loop_end(xvar);
+	if(keycode == XK_bracketleft)
+	{
+		if(params->parsing->selected && params->parsing->selected->type == SPHERE)
+		{
+			t_sphere_object *sphere = (t_sphere_object *)params->parsing->selected->specific_object;
+			sphere->diameter -= 0.1;
+			if(sphere->diameter < 0)
+				sphere->diameter = 0;
+		}
+	}
+	if(keycode == XK_bracketright)
+	{
+		if(params->parsing->selected && params->parsing->selected->type == SPHERE)
+		{
+			t_sphere_object *sphere = (t_sphere_object *)params->parsing->selected->specific_object;
+			sphere->diameter += 0.1;
+		}
+	}
+	start_rays(params->parsing, params->mlx);
 	return (0);
 }
 
 static int	on_close_window(void *param)
 {
+	t_param		*params;
 	t_xvar	*xvar;
 
-	xvar = (t_xvar *) param;
+	params = (t_param *)param;
+	xvar = params->mlx->mlx;
 	mlx_loop_end(xvar);
 	return (0);
 }

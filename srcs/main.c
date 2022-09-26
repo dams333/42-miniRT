@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 17:19:23 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/09/26 16:45:46 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/09/26 17:41:10 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	main(int argc, char **argv)
 {
 	t_parsing	parsing;
 	t_mlx		mlx;
+	t_param		param;
 
 	parsing.camera = NULL;
 	parsing.ambient_lightning = NULL;
@@ -53,7 +54,9 @@ int	main(int argc, char **argv)
 	printf("There is %i hittables\n", list_count(parsing.hittables));
 	if (!init_mlx(&mlx))
 		return (1);
-	init_events(mlx.mlx, mlx.win, &parsing);
+	param.mlx = &mlx;
+	param.parsing = &parsing;
+	init_events(&param);
 	
 	start_rays(&parsing, &mlx);
 	mlx_loop(mlx.mlx);

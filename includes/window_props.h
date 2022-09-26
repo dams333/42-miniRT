@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 13:48:26 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/09/26 16:24:34 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/09/26 17:39:36 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@ typedef struct s_mlx
 	void	*mlx;
 	void	*win;
 }	t_mlx;
+
+typedef struct s_param
+{
+	t_mlx		*mlx;
+	t_parsing	*parsing;
+}	t_param;
 
 bool	init_mlx(t_mlx *mlx);
 void	my_pixel_put(t_mlx *mlx_object, int x, int y, int color, bool put);

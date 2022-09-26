@@ -10,9 +10,14 @@ SRCS		=	main.c \
 					parse_util2.c \
 					generate_list.c \
 				) \
+				$(addprefix geometric/, \
+					point.c \
+					vector.c \
+				) \
 				$(addprefix render/, \
 					events.c \
 					mlx_utils.c \
+					render.c \
 				)
 
 

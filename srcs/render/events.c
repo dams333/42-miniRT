@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 14:56:56 by jmaia             #+#    #+#             */
-/*   Updated: 2022/09/26 18:24:31 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/09/26 19:07:52 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,17 +96,27 @@ static int	on_key_press(int keycode, void *param)
 	}
 	else if(keycode == XK_w)
 	{
-		t_vector ori = normalize((t_vector) {params->parsing->camera->orientation_x, params->parsing->camera->orientation_y, params->parsing->camera->orientation_z});
+		t_vector ori = normalize((t_vector) {params->parsing->camera->orientation_x, 0, params->parsing->camera->orientation_z});
 		params->parsing->camera->coord_x += ori.x * 0.1;
-		params->parsing->camera->coord_y += ori.y * 0.1;
 		params->parsing->camera->coord_z += ori.z * 0.1;
 	}
 	else if(keycode == XK_s)
 	{
-		t_vector ori = normalize((t_vector) {params->parsing->camera->orientation_x, params->parsing->camera->orientation_y, params->parsing->camera->orientation_z});
+		t_vector ori = normalize((t_vector) {params->parsing->camera->orientation_x, 0, params->parsing->camera->orientation_z});
 		params->parsing->camera->coord_x -= ori.x * 0.1;
-		params->parsing->camera->coord_y -= ori.y * 0.1;
 		params->parsing->camera->coord_z -= ori.z * 0.1;
+	}
+	else if(keycode == XK_d)
+	{
+		t_vector ori = normalize((t_vector) {params->parsing->camera->orientation_x, 0, params->parsing->camera->orientation_z});
+		params->parsing->camera->coord_x += ori.z * 0.1;
+		params->parsing->camera->coord_z += ori.x * 0.1;
+	}
+	else if(keycode == XK_a)
+	{
+		t_vector ori = normalize((t_vector) {params->parsing->camera->orientation_x, 0, params->parsing->camera->orientation_z});
+		params->parsing->camera->coord_x -= ori.z * 0.1;
+		params->parsing->camera->coord_z -= ori.x * 0.1;
 	}
 	else if(keycode == XK_space)
 	{

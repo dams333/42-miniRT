@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 17:19:23 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/09/26 16:30:29 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/09/26 16:37:26 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	main(int argc, char **argv)
 	printf("There is %i hittables\n", list_count(parsing.hittables));
 	if (!init_mlx(&mlx))
 		return (1);
-	init_events(mlx.mlx, mlx.win);
+	init_events(mlx.mlx, mlx.win, &parsing);
 	
 	start_rays(&parsing, &mlx);
 	mlx_loop(mlx.mlx);

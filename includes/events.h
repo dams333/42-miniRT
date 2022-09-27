@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 14:57:09 by jmaia             #+#    #+#             */
-/*   Updated: 2022/09/26 17:42:46 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/09/27 13:12:50 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,8 @@ void	init_events(t_param *param);
 
 t_generic_object *compute_intersection(t_point origin, t_vector ray_destination, float t_min, float t_max, t_parsing *parsing);
 t_point canvas_to_viewport(float x, float y, float vw, float vh, float d);
+void    click_on_screen(int x, int y, t_param *params);
+void    move(int keycode, t_param *params);
+void    key_pressed(int keycode, t_param *params);
 
 #endif

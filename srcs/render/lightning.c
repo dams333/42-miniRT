@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 17:32:08 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/09/29 18:42:50 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/09/30 00:50:33 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ void	calcul_diffuse_lightning(t_point point, t_vector normal, t_light_object lig
 	n_dot_l = dot_product(normal, light_direction);
 	if(n_dot_l > 0)
 	{
-		res[0] += light.brightness_ratio * n_dot_l * obj_r;
-		res[1] += light.brightness_ratio * n_dot_l * obj_g;
-		res[2] += light.brightness_ratio * n_dot_l * obj_b;
+		res[0] += light.brightness_ratio * (light.color_r / 255) * n_dot_l * obj_r;
+		res[1] += light.brightness_ratio * (light.color_g / 255) * n_dot_l * obj_g;
+		res[2] += light.brightness_ratio * (light.color_b / 255) * n_dot_l * obj_b;
 	}
 }
 
@@ -64,7 +64,7 @@ void	calcul_specular_lightning(t_point point, t_vector normal, t_light_object li
 	specular_color[0] = (1 - p) * obj_r + p;
 	specular_color[1] = (1 - p) * obj_g + p;
 	specular_color[2] = (1 - p) * obj_b + p;
-	res[0] += light.brightness_ratio * powf(dot_product(reflected_directions, eye_direction), n) * specular_color[0];
-	res[1] += light.brightness_ratio * powf(dot_product(reflected_directions, eye_direction), n) * specular_color[1];
-	res[2] += light.brightness_ratio * powf(dot_product(reflected_directions, eye_direction), n) * specular_color[2];
+	res[0] += light.brightness_ratio * (light.color_r / 255) * powf(dot_product(reflected_directions, eye_direction), n) * specular_color[0];
+	res[1] += light.brightness_ratio * (light.color_g / 255) * powf(dot_product(reflected_directions, eye_direction), n) * specular_color[1];
+	res[2] += light.brightness_ratio * (light.color_b / 255) * powf(dot_product(reflected_directions, eye_direction), n) * specular_color[2];
 }

@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 17:32:08 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/09/29 18:31:49 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/09/29 18:42:50 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	calcul_specular_lightning(t_point point, t_vector normal, t_light_object li
 	eye_direction = substract((t_point) {camera.coord_x, camera.coord_y, camera.coord_z}, point);
 	eye_direction = normalize(eye_direction);
 	p = 0.5;
-	n = 300;
+	n = 400;
 	specular_color[0] = (1 - p) * obj_r + p;
 	specular_color[1] = (1 - p) * obj_g + p;
 	specular_color[2] = (1 - p) * obj_b + p;

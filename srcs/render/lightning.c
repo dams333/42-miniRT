@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 17:32:08 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/09/30 00:50:33 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/09/30 00:55:32 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@
 
 void	calcul_ambiant_lightning(t_ambient_lightning_object *ambiant, float obj_r, float obj_g, float obj_b, float res[3])
 {
-	res[0] += ambiant->lightning_ratio * obj_r;
-	res[1] += ambiant->lightning_ratio * obj_g;
-	res[2] += ambiant->lightning_ratio * obj_b;
+	res[0] += ambiant->lightning_ratio * (ambiant->color_r / 255) * obj_r;
+	res[1] += ambiant->lightning_ratio * (ambiant->color_g / 255) * obj_g;
+	res[2] += ambiant->lightning_ratio * (ambiant->color_b / 255) * obj_b;
 }
 
 void	calcul_diffuse_lightning(t_point point, t_vector normal, t_light_object light, float obj_r, float obj_g, float obj_b, float res[3])

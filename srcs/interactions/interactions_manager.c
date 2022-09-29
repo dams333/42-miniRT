@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 13:05:04 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/09/27 13:12:57 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/09/27 15:26:47 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void    click_on_screen(int x, int y, t_param *params)
 	t_point destination = matrix_mult_point(rotation_matrix, canvas_to_viewport(transform_x, transform_y, vw, vh, d));
     t_vector ray_destination = normalize((t_vector) {destination.x, destination.y, destination.z});
 	t_generic_object *hitted = compute_intersection(origin, ray_destination, d, INF, parsing);
-	parsing->selected = NULL;
 	if(hitted != NULL)
 	{
 		if(hitted->type == SPHERE)
@@ -49,6 +48,11 @@ void    click_on_screen(int x, int y, t_param *params)
 
 void    key_pressed(int keycode, t_param *params)
 {
+	if(keycode == XK_q)
+	{
+		printf("Unselected object\n");
+		params->parsing->selected = NULL;
+	}
     if(keycode == XK_w || keycode == XK_a || keycode == XK_s || keycode == XK_d || keycode == XK_space || keycode == XK_Shift_L)
         move(keycode, params);
 }

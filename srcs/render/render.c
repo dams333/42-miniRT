@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 14:01:07 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/09/29 17:54:04 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/09/29 18:05:10 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,27 +50,7 @@ void intersect_ray_sphere(t_point origin, t_vector ray_destination, t_sphere_obj
 	}
 }
 
-float calcul_global_lightning(t_point point, t_vector normal, t_generic_object *objects)
-{
-	float i = 0;
-	t_generic_object *obj = objects;
-	while (obj)
-	{
-		t_light_object *light = obj->specific_object;
-		t_vector light_direction = substract((t_point){light->coord_x, light->coord_y, light->coord_z}, point);
-		float n_dot_l = dot_product(normal, light_direction);
-		if (n_dot_l > 0)
-		{
-			i += light->brightness_ratio * n_dot_l / (vector_length(normal) * vector_length(light_direction));
-		}
-		obj = obj->next;
-	}
-	if (i > 1)
-		i = 1;
-	return i;
-}
-
-void calcul_pixel_color(t_point point, t_vector normal, t_generic_object *lights, t_ambient_lightning_object *ambiant, float obj_r, float obj_g, float obj_b, float res[3])
+void calcul_pixel_color(t_point point, t_vector normal, t_generic_object *lights, t_ambient_lightning_object *ambiant, t_camera_object camera, float obj_r, float obj_g, float obj_b, float res[3])
 {
 	t_generic_object	*obj;
 
@@ -87,6 +67,7 @@ void calcul_pixel_color(t_point point, t_vector normal, t_generic_object *lights
 		if (obj->type == LIGHT)
 		{
 			calcul_diffuse_lightning(point, normal, *((t_light_object *)obj->specific_object), obj_r, obj_g, obj_b, res);
+			calcul_specular_lightning(point, normal, *((t_light_object *)obj->specific_object), camera, obj_r, obj_g, obj_b, res);
 		}
 		obj = obj->next;
 	}
@@ -96,37 +77,6 @@ void calcul_pixel_color(t_point point, t_vector normal, t_generic_object *lights
 		res[1] = 1;
 	if (res[2] > 1)
 		res[2] = 1;
-}
-
-t_generic_object *intersect(t_point origin, t_vector ray_destination, float t_min, float t_max, t_parsing *parsing)
-{
-	float closest_t = t_max;
-	t_generic_object *closest_object = NULL;
-	t_generic_object *obj = parsing->hittables;
-
-	while (obj != NULL)
-	{
-		if (obj->type == SPHERE)
-		{
-			float intersection_distance[2];
-			t_sphere_object *sphere = (t_sphere_object *)obj->specific_object;
-			intersect_ray_sphere(origin, ray_destination, *sphere, intersection_distance);
-			if (intersection_distance[0] > t_min && intersection_distance[0] < t_max && intersection_distance[0] < closest_t)
-			{
-				// If intersection is closer than previous one
-				closest_t = intersection_distance[0];
-				closest_object = obj;
-			}
-			if (intersection_distance[1] > t_min && intersection_distance[1] < t_max && intersection_distance[1] < closest_t)
-			{
-				// If intersection is closer than previous one
-				closest_t = intersection_distance[1];
-				closest_object = obj;
-			}
-		}
-		obj = obj->next;
-	}
-	return (closest_object);
 }
 
 int trace_ray(t_point origin, t_vector ray_destination, float t_min, float t_max, t_parsing *parsing)
@@ -168,7 +118,7 @@ int trace_ray(t_point origin, t_vector ray_destination, float t_min, float t_max
 		t_point point = add(origin, multiply_by_scalar(ray_destination, closest_t));
 		t_vector normal = substract(point, (t_point){sphere->coord_x, sphere->coord_y, sphere->coord_z});
 		float lightning[3];
-		calcul_pixel_color(point, normal, parsing->lights, parsing->ambient_lightning, sphere->color_r, sphere->color_g, sphere->color_b, lightning);
+		calcul_pixel_color(point, normal, parsing->lights, parsing->ambient_lightning, *(parsing->camera), sphere->color_r, sphere->color_g, sphere->color_b, lightning);
 		return encode_rgb(sphere->color_r * lightning[0], sphere->color_g * lightning[1], sphere->color_b * lightning[2]);
 	}
 	else

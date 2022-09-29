@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 17:32:08 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/09/29 17:55:01 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/09/29 18:31:49 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,29 @@ void	calcul_diffuse_lightning(t_point point, t_vector normal, t_light_object lig
 		res[1] += light.brightness_ratio * n_dot_l * obj_g;
 		res[2] += light.brightness_ratio * n_dot_l * obj_b;
 	}
+}
+
+void	calcul_specular_lightning(t_point point, t_vector normal, t_light_object light, t_camera_object camera, float obj_r, float obj_g, float obj_b, float res[3])
+{
+	t_vector	reflected_directions;
+	t_vector	light_direction;
+	t_vector	eye_direction;
+	float		specular_color[3];
+	float		p;
+	float		n;
+
+	light_direction = substract((t_point) {light.coord_x, light.coord_y, light.coord_z}, point);
+	light_direction = normalize(light_direction);
+	reflected_directions = vector_addition(light_direction, multiply_by_scalar(normal, 2 * dot_product(light_direction, normal)));
+	reflected_directions = normalize(reflected_directions);
+	eye_direction = substract((t_point) {camera.coord_x, camera.coord_y, camera.coord_z}, point);
+	eye_direction = normalize(eye_direction);
+	p = 0.5;
+	n = 300;
+	specular_color[0] = (1 - p) * obj_r + p;
+	specular_color[1] = (1 - p) * obj_g + p;
+	specular_color[2] = (1 - p) * obj_b + p;
+	res[0] += light.brightness_ratio * powf(dot_product(reflected_directions, eye_direction), n) * specular_color[0];
+	res[1] += light.brightness_ratio * powf(dot_product(reflected_directions, eye_direction), n) * specular_color[1];
+	res[2] += light.brightness_ratio * powf(dot_product(reflected_directions, eye_direction), n) * specular_color[2];
 }

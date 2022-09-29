@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 13:48:26 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/09/29 17:48:49 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/09/29 18:05:35 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,6 @@ int		encode_rgb(int red, int green, int blue);
 void	start_rays(t_parsing *parsing, t_mlx *mlx);
 void   calcul_ambiant_lightning(t_ambient_lightning_object *ambiant, float obj_r, float obj_g, float obj_b, float res[3]);
 void    calcul_diffuse_lightning(t_point point, t_vector normal, t_light_object light, float obj_r, float obj_g, float obj_b, float res[3]);
+void	calcul_specular_lightning(t_point point, t_vector normal, t_light_object light, t_camera_object camera, float obj_r, float obj_g, float obj_b, float res[3]);
 
 #endif

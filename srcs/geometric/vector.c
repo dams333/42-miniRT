@@ -6,7 +6,7 @@
 /*   By: dhubleur <dhubleur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 13:36:32 by dhubleur          #+#    #+#             */
-/*   Updated: 2022/09/26 16:22:49 by dhubleur         ###   ########.fr       */
+/*   Updated: 2022/09/29 18:28:43 by dhubleur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,5 +124,15 @@ t_matrix3 rotation_matrix_from_orientation(t_vector target)
     result.a3.x = axis.x * axis.z * (1 - cos(angle)) - axis.y * sin(angle);
     result.a3.y = axis.y * axis.z * (1 - cos(angle)) + axis.x * sin(angle);
     result.a3.z = cos(angle) + pow(axis.z, 2) * (1 - cos(angle));
+    return (result);
+}
+
+t_vector    vector_addition(t_vector v1, t_vector v2)
+{
+    t_vector result;
+
+    result.x = v1.x + v2.x;
+    result.y = v1.y + v2.y;
+    result.z = v1.z + v2.z;
     return (result);
 }

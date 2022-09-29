@@ -18,6 +18,7 @@ SRCS		=	main.c \
 					events.c \
 					mlx_utils.c \
 					render.c \
+					lightning.c \
 				)
 
 
